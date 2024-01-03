@@ -1,0 +1,58 @@
+/*.dasboardbtn{
+    -fx-border-color: #ad0f0f;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-background-color: #0b4bec;
+
+}*/
+
+.lablebtn{
+    -fx-border-color: #000000;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-text-alignment: Center;
+}
+.lablebtn:hover{
+    -fx-background-color: #b0b6b6;
+    -fx-text-fill: #000000
+}
+.btn {
+    -fx-background-color: #e8a006;
+
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-font-size:15;
+    -fx-cursor: hand;
+    -fx-font-weight: 600;
+    -fx-text-fill: #ffffff;
+}
+
+.btn:hover {
+    -fx-background-color: #d2975d;
+    -fx-border-color: #000000;
+    -fx-text-fill: #000000;
+}
+.text-prompt{
+
+    -fx-font-size: 10;
+    -fx-text-fill: #515252;
+}
+.productPane {
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+    -fx-border-color: #474949;
+    -fx-background-color: #FEEDF4;
+}
+
+.textBox{
+    -fx-font-size: 20;
+    -fx-border-radius: 40;
+    -fx-background-radius: 40;
+    -fx-border-color: #0c0c0c;
+    -fx-text-fill: #000000;
+}
+
+
+
+
+

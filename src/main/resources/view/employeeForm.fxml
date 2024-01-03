@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="724.0" prefWidth="1082.0" style="-fx-background-color: blur;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmployeeFormController">
+   <children>
+      <Label layoutX="20.0" layoutY="12.0" text="Employee Manage" textFill="#b91a05">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmployeeId" layoutX="20.0" layoutY="79.0" onAction="#txtSearchOnAction" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtTel" layoutX="18.0" layoutY="139.0" prefHeight="33.0" prefWidth="230.0" />
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="676.0" layoutY="197.0" onAction="#btnSaveOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/save.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="548.0" layoutY="198.0" onAction="#btnUpdateOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: blue;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/update.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="417.0" layoutY="198.0" onAction="#btnDeleteOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: #e74c3c;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/delete.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="287.0" layoutY="198.0" onAction="#btnClearOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: orange;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Clear" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/clear.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="597.0" onAction="#btnBackOnAction" prefHeight="35.0" prefWidth="61.0" style="-fx-background-color: grey;" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <TextField fx:id="txtEmployeeName" layoutX="290.0" layoutY="79.0" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtJobTitle" layoutX="289.0" layoutY="140.0" prefHeight="33.0" prefWidth="230.0" />
+      <TableView fx:id="tblEmployee" layoutX="20.0" layoutY="243.0" prefHeight="350.0" prefWidth="982.0">
+         <columns>
+            <TableColumn fx:id="colEmployeeId" prefWidth="99.0" text="Employee id" />
+            <TableColumn fx:id="colEmployeeName" prefWidth="182.0" text="Employee name" />
+            <TableColumn fx:id="colEmail" prefWidth="187.0" text="Email" />
+            <TableColumn fx:id="colTel" prefWidth="126.0" text="Tel" />
+            <TableColumn fx:id="colJobTitle" prefWidth="136.0" text="Job Title" />
+            <TableColumn fx:id="colSalary" prefWidth="112.0" text="Salary" />
+            <TableColumn fx:id="colDate" prefWidth="139.0" text="Date" />
+         </columns>
+      </TableView>
+      <Label layoutX="20.0" layoutY="55.0" text="Employee Id" textFill="#252423">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="291.0" layoutY="56.0" text="Employee name" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="118.0" text="Tel" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtEmail" layoutX="566.0" layoutY="80.0" prefHeight="33.0" prefWidth="230.0" />
+      <Label layoutX="292.0" layoutY="116.0" text="Job Title" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="567.0" layoutY="58.0" text="email" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtSalary" layoutX="568.0" layoutY="140.0" prefHeight="33.0" prefWidth="230.0" />
+      <Label layoutX="567.0" layoutY="119.0" text="Salary" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtDate" layoutX="18.0" layoutY="198.0" prefHeight="33.0" prefWidth="230.0" />
+      <Label layoutX="20.0" layoutY="176.0" text="Date" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmailFormController">
+   <children>
+      <TextField fx:id="txtsubject" layoutX="55.0" layoutY="84.0" prefHeight="24.0" prefWidth="469.0" promptText="subject" />
+      <TextField fx:id="txtmassage" layoutX="65.0" layoutY="141.0" prefHeight="179.0" prefWidth="463.0" promptText="massage" />
+      <JFXButton fx:id="btnsend" layoutX="478.0" layoutY="332.0" onAction="#btnSendOnAction" style="-fx-background-color: green;" text="send" />
+      <Text layoutX="252.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="123.7294921875">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

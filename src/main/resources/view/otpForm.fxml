@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="otpForm" prefHeight="320.0" prefWidth="283.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OtpFormController">
+   <children>
+      <TextField fx:id="txtOtp" layoutX="121.0" layoutY="144.0" prefHeight="30.0" prefWidth="123.0" />
+      <Text layoutX="22.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EnterOtp">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font></Text>
+      <Button fx:id="btnVerify" layoutX="105.0" layoutY="219.0" mnemonicParsing="false" onAction="#btnVerifyOnAction" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: green;" text="Verify" textFill="#fcf1f1" />
+      <Button fx:id="btnBack" layoutX="122.0" layoutY="273.0" mnemonicParsing="false" onAction="#btnBackOnAction" style="-fx-background-color: gray;" text="Back" textFill="#fceeee" />
+      <ImageView fitHeight="110.0" fitWidth="145.0" layoutX="65.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/image/download%20(4).png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

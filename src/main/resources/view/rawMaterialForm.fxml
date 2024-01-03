@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="724.0" prefWidth="1082.0" style="-fx-background-color: blur;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.RawMaterialFormController">
+   <children>
+      <Label layoutX="8.0" layoutY="3.0" text="Raw Material Manage" textFill="#bc1a08">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtRawId" layoutX="4.0" layoutY="71.0" onAction="#txtRawIdSearchOnAction" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtQtyOnStock" layoutX="4.0" layoutY="139.0" prefHeight="33.0" prefWidth="230.0" />
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="511.0" layoutY="71.0" onAction="#btnSaveOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/save.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="636.0" layoutY="71.0" onAction="#btnUpdateOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: blue;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/update.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="512.0" layoutY="125.0" onAction="#btnDeleteOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: #e74c3c;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/delete.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="637.0" layoutY="124.0" onAction="#btnClearOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: orange;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Clear" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../Desktop/thogakade-mvc6/src/main/resources/icon/clear.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="6.0" layoutY="586.0" onAction="#btnBackOnAction" prefHeight="35.0" prefWidth="61.0" style="-fx-background-color: grey;" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <TextField fx:id="txtRawName" layoutX="267.0" layoutY="70.0" prefHeight="33.0" prefWidth="230.0" />
+      <TableView fx:id="tblRawMaterial" layoutX="5.0" layoutY="181.0" prefHeight="400.0" prefWidth="982.0">
+         <columns>
+            <TableColumn fx:id="colRawId" prefWidth="211.0" text="Raw Material id" />
+            <TableColumn fx:id="colMaterialName" prefWidth="332.0" text="Material Name" />
+            <TableColumn fx:id="colQtyOnStock" prefWidth="224.0" text="Qty On Stock" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="214.0" text="Unit price" />
+         </columns>
+      </TableView>
+      <Label layoutX="7.0" layoutY="48.0" text="Raw Material Id" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="267.0" layoutY="49.0" text="Material Name" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="6.0" layoutY="116.0" text="Qty On Stock" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUnitPrice" layoutX="270.0" layoutY="138.0" prefHeight="33.0" prefWidth="230.0" />
+      <Label layoutX="268.0" layoutY="115.0" text="Unit price" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

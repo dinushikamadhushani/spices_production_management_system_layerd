@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="771.0" prefWidth="1246.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginPageFormController">
+   <children>
+      <Text fill="#941103e0" layoutX="957.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" wrappingWidth="238.7294921875">
+         <font>
+            <Font name="System Bold" size="38.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtusername" layoutX="873.0" layoutY="332.0" prefHeight="42.0" prefWidth="303.0" />
+      <Text layoutX="872.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="870.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="20.0" fitWidth="34.0" layoutX="1150.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/icon/download.png" />
+         </image>
+      </ImageView>
+      <JFXButton layoutX="908.0" layoutY="577.0" onAction="#btnLoginOnAction" prefHeight="46.0" prefWidth="227.0" style="-fx-background-color: orange;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Login">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXButton>
+      <Hyperlink layoutX="863.0" layoutY="516.0" onAction="#hypforgotpasswordOnAction" text="Forgot password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Hyperlink>
+      <ImageView fitHeight="1436.0" fitWidth="950.0" layoutY="-660.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/image/linus-mimietz-O3ISKgWmzPo-unsplash.jpg" />
+         </image>
+      </ImageView>
+      <PasswordField fx:id="txtpassword" layoutX="871.0" layoutY="440.0" prefHeight="42.0" prefWidth="301.0" />
+      <ImageView fitHeight="21.0" fitWidth="50.0" layoutX="1144.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/icon/images.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="146.0" fitWidth="254.0" layoutX="891.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/image/download%20(4).png" />
+         </image>
+      </ImageView>
+      <CheckBox layoutX="871.0" layoutY="486.0" mnemonicParsing="false" onAction="#check" prefHeight="18.0" prefWidth="134.0" text="show password" />
+      <TextField fx:id="showPassword" layoutX="870.0" layoutY="440.0" prefHeight="42.0" prefWidth="303.0" />
+   </children>
+</AnchorPane>

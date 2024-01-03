@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2023-11-29T13:01:19 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2178cc29-6077-4486-ae96-f668eb4e0ae4">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (6)"/>
+	<parameter name="orderId" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select i.item_id,
+             i.item_name,
+             i.unit_price,
+             od.qty,
+             od.qty * od.unit_price AS  payments,
+             o.date
+             FROM  item i
+             join Order_detail od on i.item_id=od.item_id
+             join orders o on od.order_id=o.order_id where od.order_id=$P{orderId}]]>
+	</queryString>
+	<field name="item_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="item_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit_price" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="qty" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payments" class="java.lang.Double"/>
+	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="84" y="0" width="100" height="30" uuid="b26f07d0-a3e8-427f-a11e-4235476da363"/>
+				<text><![CDATA[item_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="173" y="0" width="100" height="30" uuid="e85fda2f-e89e-4978-bb86-3a6074e65e49"/>
+				<text><![CDATA[unit_price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="0" width="100" height="30" uuid="793e6dd4-33a9-4d5d-9c0a-3de5db075fb3"/>
+				<text><![CDATA[qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="0" width="100" height="30" uuid="64b0c36a-7486-44d8-aeaf-1afdc9d74f42"/>
+				<text><![CDATA[payments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="0" width="100" height="30" uuid="574ce0ee-f52e-4dc1-8ebf-77cc1310e2c2"/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="-4" y="7" width="100" height="30" uuid="f09b2f77-e8e1-4f2c-b6d6-61a1d8bd0353"/>
+				<textFieldExpression><![CDATA[$P{orderId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="7" width="100" height="30" uuid="bdcca3df-e8d7-4a5f-9921-7ca6c2afb038"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="7" width="100" height="30" uuid="1dc085e7-b364-4a80-a5c2-b816eafacc8d"/>
+				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="256" y="8" width="100" height="30" uuid="91baa779-cb29-467d-ae1c-b5f40a62bdfa"/>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="9" width="100" height="30" uuid="293b06a7-a42b-4c49-a0eb-f0a2f8fbc2b0"/>
+				<textFieldExpression><![CDATA[$F{payments}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="10" width="100" height="30" uuid="773d7ef2-ff25-41a0-866e-d3ee99d740d1"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2023-11-27T00:52:42 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Detail" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a25f796-b2ba-4659-aa0a-ce354b0295f6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
+	<queryString>
+		<![CDATA[select i.item_id,
+             i.item_name,
+             i.unit_price,
+             od.order_id,
+             od.qty,
+             od.qty * od.unit_price AS  payments,
+             o.date
+             FROM  item i
+             join Order_detail od on i.item_id=od.item_id
+             join orders o on od.order_id=o.order_id]]>
+	</queryString>
+	<field name="item_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="item_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit_price" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="order_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="qty" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payments" class="java.lang.Double"/>
+	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="207" y="19" width="163" height="30" uuid="5ef80752-b47e-460a-bd94-3a2742bbff44"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Spices sales details]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="-9" y="15" width="100" height="30" uuid="5fd57e02-a2ab-4d72-90f2-eb6b1769dccf"/>
+				<text><![CDATA[item_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="13" width="100" height="30" uuid="8002ac46-ce52-474b-b30d-7a7f1b4a1e3c"/>
+				<text><![CDATA[order_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="12" width="100" height="30" uuid="24c24753-bd89-445a-a229-657563b35b56"/>
+				<text><![CDATA[item_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="11" width="100" height="30" uuid="2ba4bfa4-04ec-43d4-8659-d7f1b5ca7380"/>
+				<text><![CDATA[unit_price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="10" width="100" height="30" uuid="7c4fdc9c-f2f6-4eaa-b8f0-d8eff37bbe2a"/>
+				<text><![CDATA[qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="9" width="100" height="30" uuid="7de955f6-074b-4926-a6c6-c4a8b0d1ea2f"/>
+				<text><![CDATA[payments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="9" width="100" height="30" uuid="7928f25b-cbd7-4f5e-a005-95384e367c68"/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="-9" y="6" width="100" height="30" uuid="a172568c-7f5f-48f3-8ef6-14c55906836b"/>
+				<textFieldExpression><![CDATA[$F{item_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="8" width="100" height="30" uuid="8d7949d5-8ffd-4008-bbcc-e1577430e6d9"/>
+				<textFieldExpression><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="143" y="10" width="100" height="30" uuid="700ec7c4-9478-4417-a9fb-8ea5ec9ab5ca"/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="11" width="100" height="30" uuid="e8e7d753-b4e5-4200-8165-c0efad561795"/>
+				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="11" width="100" height="30" uuid="b96399ad-d53f-400c-82fc-36df2f86e384"/>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="12" width="100" height="30" uuid="041d1db8-6ae3-4779-b1bd-4b574e7bffbb"/>
+				<textFieldExpression><![CDATA[$F{payments}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="11" width="100" height="30" uuid="400c23b3-642e-4db3-9cba-941d114893c1"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

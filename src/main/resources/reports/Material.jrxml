@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2023-11-27T19:45:50 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Material" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de9f19cf-533a-4a69-9283-51c3d7b19056">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (8)"/>
+	<queryString>
+		<![CDATA[select r.rawMaterial_id,
+              r.material_name,
+              r.unit_price,
+              sd.supplier_id,
+              sd.qty_on_stock,
+              sd.qty_on_stock * sd.unit_price AS payments,
+              date
+              FROM  raw_material  r
+              join supplier_detail sd on r.rawMaterial_id=sd.rawMaterial_id]]>
+	</queryString>
+	<field name="rawMaterial_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="material_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unit_price" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="supplier_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="qty_on_stock" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payments" class="java.lang.Double"/>
+	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="150" y="23" width="240" height="30" uuid="afd8cbbc-34ce-457f-9542-d5a3d647fdfd"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Material Details]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="-11" y="0" width="100" height="30" uuid="c76188c3-58e2-4cfc-b00c-e52b1fb3eb7a"/>
+				<text><![CDATA[rawMaterial_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="0" width="88" height="30" uuid="75797d7c-dc76-4249-be04-84fed4751f3f"/>
+				<text><![CDATA[material_name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="75" height="30" uuid="c4adf601-5572-4cc1-ab10-611ab6cf16f9"/>
+				<text><![CDATA[unit_price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="79" height="30" uuid="97f509fc-37a6-441d-957d-a10c0e6953a3"/>
+				<text><![CDATA[supplier_id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="358" y="0" width="79" height="30" uuid="f6379762-a0e8-4b85-9195-8aaa7fd8c4db"/>
+				<text><![CDATA[qty_on_stock]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="0" width="70" height="30" uuid="e40a74aa-0252-4877-a457-3910bf4cbbc2"/>
+				<text><![CDATA[payments]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="513" y="0" width="50" height="30" uuid="19230c85-68b6-4877-93fc-ddb3053ad2b2"/>
+				<text><![CDATA[date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="-11" y="7" width="100" height="30" uuid="ff9bafff-c4c0-4278-8f2d-56cec34f470d"/>
+				<textFieldExpression><![CDATA[$F{rawMaterial_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="7" width="100" height="30" uuid="798ed6ef-4f88-4896-9eb5-3e17138ac560"/>
+				<textFieldExpression><![CDATA[$F{material_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="7" width="100" height="30" uuid="38ff8c94-145f-47d5-9964-70370fc9214d"/>
+				<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="8" width="100" height="30" uuid="0e8072df-06ce-4d5d-abfc-19bf100c5ce2"/>
+				<textFieldExpression><![CDATA[$F{supplier_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="5" width="100" height="30" uuid="07f692be-71f2-4961-9e5a-4507c9492616"/>
+				<textFieldExpression><![CDATA[$F{qty_on_stock}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="446" y="6" width="100" height="30" uuid="a6e0a37c-5a1b-4123-ba27-499eeb69011c"/>
+				<textFieldExpression><![CDATA[$F{payments}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="522" y="8" width="50" height="30" uuid="a05cdaae-f606-4aa5-ad75-bc97bf9e6a46"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

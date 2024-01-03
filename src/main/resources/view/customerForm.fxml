@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="766.0" prefWidth="1134.0" style="-fx-background-color: blur;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
+   <children>
+      <Label layoutX="6.0" layoutY="3.0" text="Customer Manage" textFill="#ba310d">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtId" layoutX="4.0" layoutY="68.0" onAction="#txtSearchOnAction" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtAddress" layoutX="3.0" layoutY="130.0" prefHeight="33.0" prefWidth="230.0" />
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="515.0" layoutY="67.0" onAction="#btnSaveOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="657.0" layoutY="66.0" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="113.0" style="-fx-background-color: blue;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="516.0" layoutY="123.0" onAction="#btnDeleteOnAction" prefHeight="18.0" prefWidth="113.0" style="-fx-background-color: #e74c3c;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="658.0" layoutY="121.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: orange;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Clear" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="5.0" layoutY="584.0" onAction="#btnBackOnAction" prefHeight="35.0" prefWidth="61.0" style="-fx-background-color: grey;" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <TextField fx:id="txtName" layoutX="263.0" layoutY="68.0" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtTel" layoutX="263.0" layoutY="131.0" prefHeight="33.0" prefWidth="230.0" />
+      <TableView fx:id="tblCustomer" layoutX="5.0" layoutY="180.0" prefHeight="400.0" prefWidth="1038.0">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="185.0" text="Id" />
+            <TableColumn fx:id="colName" prefWidth="326.0" text="Name" />
+            <TableColumn fx:id="colAddress" prefWidth="290.0" text="Address" />
+            <TableColumn fx:id="colTel" prefWidth="236.0" text="Tel" />
+         </columns>
+      </TableView>
+      <Label layoutX="8.0" layoutY="49.0" text="Customer Id" textFill="#171717">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="264.0" layoutY="47.0" text="Customer Name" textFill="#141314">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="5.0" layoutY="109.0" text="Customer Address" textFill="#1a191b">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="264.0" layoutY="108.0" text="Customer Tel" textFill="#131314">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

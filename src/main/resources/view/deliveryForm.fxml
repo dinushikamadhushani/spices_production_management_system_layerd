@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="724.0" prefWidth="1082.0" style="-fx-background-color: blur;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DeliveryFormController">
+   <children>
+      <Label layoutX="19.0" layoutY="4.0" text="Delivery Manage" textFill="#b91705">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtDeliveryId" layoutX="20.0" layoutY="75.0" onAction="#txtDeliveryIdSearchOnAction" prefHeight="33.0" prefWidth="230.0" />
+      <TextField fx:id="txtLocation" layoutX="20.0" layoutY="142.0" prefHeight="33.0" prefWidth="230.0" />
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="744.0" layoutY="78.0" onAction="#btnSaveOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Save" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="880.0" layoutY="79.0" onAction="#btnUpdateOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: blue;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="745.0" layoutY="145.0" onAction="#btnDeleteOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: #e74c3c;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Delete" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="880.0" layoutY="147.0" onAction="#btnClearOnAction" prefHeight="20.0" prefWidth="113.0" style="-fx-background-color: orange;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Clear" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="20.0" layoutY="590.0" onAction="#btnBackOnAction" prefHeight="35.0" prefWidth="61.0" style="-fx-background-color: grey;" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <TextField fx:id="txtDeliveryStatus" layoutX="260.0" layoutY="142.0" prefHeight="33.0" prefWidth="230.0" />
+      <TableView fx:id="tblDelivery" layoutX="20.0" layoutY="204.0" prefHeight="378.0" prefWidth="982.0">
+         <columns>
+            <TableColumn fx:id="colDeliveryId" prefWidth="105.0" text="Delivery id" />
+            <TableColumn fx:id="colOrderId" prefWidth="180.0" text="Order id" />
+            <TableColumn fx:id="colEmployeeId" prefWidth="171.0" text="Employee id" />
+            <TableColumn fx:id="colLocation" prefWidth="176.0" text="Location" />
+            <TableColumn fx:id="colDeliveryStatus" prefWidth="200.0" text="Delivery status" />
+            <TableColumn fx:id="colEmail" prefWidth="148.0" text="Email" />
+         </columns>
+      </TableView>
+      <Label layoutX="23.0" layoutY="52.0" text="Delivery Id" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="263.0" layoutY="54.0" text="Order Id" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="120.0" text="Location" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="261.0" layoutY="122.0" text="Delivery status" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="505.0" layoutY="122.0" text="Email" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="502.0" layoutY="54.0" text="Employee Id" textFill="#363232">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbEmployeeId" layoutX="502.0" layoutY="76.0" onAction="#cmbEmployeeIdOnAction" prefHeight="30.0" prefWidth="230.0" stylesheets="@../style/stylesheet.css" />
+      <TextField fx:id="txtOrderId" layoutX="263.0" layoutY="75.0" prefHeight="33.0" prefWidth="228.0" />
+      <JFXButton fx:id="btnEmail" layoutX="812.0" layoutY="34.0" onAction="#btnEmailOnAction" prefHeight="24.0" prefWidth="115.0" style="-fx-background-color: brown;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="mail" />
+      <ComboBox fx:id="cmbEmail" layoutX="505.0" layoutY="145.0" onAction="#cmbEmailOnAction" prefHeight="32.0" prefWidth="224.0" />
+   </children>
+</AnchorPane>
