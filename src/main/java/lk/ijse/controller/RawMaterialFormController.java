@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.RawMaterialBO;
+import lk.ijse.bo.custom.impl.RawMaterialBOImpl;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.dto.tm.RawMaterialTm;
 import lk.ijse.model.RawMaterialModel;
@@ -55,8 +57,10 @@ public class RawMaterialFormController {
     @FXML
     private TextField txtUnitPrice;
 
+    RawMaterialBO rawMaterialBO = new RawMaterialBOImpl();
 
-    public void initialize() {
+
+    public void initialize() throws SQLException, ClassNotFoundException {
         setCellValueFactory();
         loadAllMaterials();
     }
@@ -69,30 +73,26 @@ public class RawMaterialFormController {
 
     }
 
-    private void loadAllMaterials() {
-        var model = new RawMaterialModel();
+    private void loadAllMaterials() throws SQLException, ClassNotFoundException {
+       // var model = new RawMaterialModel();
 
         ObservableList<RawMaterialTm> obList = FXCollections.observableArrayList();
+        List<RawMaterialDto> dtoList = rawMaterialBO.getAllMaterials();
 
-        try {
-            List<RawMaterialDto> dtoList = model.getAllMaterials();
+        for(RawMaterialDto dto : dtoList) {
+            obList.add(
+                    new RawMaterialTm(
+                            dto.getRawMaterialId(),
+                            dto.getRawMaterialName(),
+                            dto.getQtyOnStock(),
+                            dto.getUnitPrice()
 
-            for(RawMaterialDto dto : dtoList) {
-                obList.add(
-                        new RawMaterialTm(
-                                dto.getRawMaterialId(),
-                                dto.getRawMaterialName(),
-                                dto.getQtyOnStock(),
-                                dto.getUnitPrice()
-
-                        )
-                );
-            }
-
-            tblRawMaterial.setItems(obList);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                    )
+            );
         }
+
+        tblRawMaterial.setItems(obList);
+
     }
 
 
@@ -129,6 +129,8 @@ public class RawMaterialFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -156,6 +158,8 @@ public class RawMaterialFormController {
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
 
@@ -231,6 +235,8 @@ public class RawMaterialFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
