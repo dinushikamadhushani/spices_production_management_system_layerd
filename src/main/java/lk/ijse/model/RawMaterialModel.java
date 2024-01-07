@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RawMaterialModel {
-    public boolean saveRawMaterial(final RawMaterialDto dto) throws SQLException {
+    /*public boolean saveRawMaterial(final RawMaterialDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO raw_material VALUES(?, ?, ?, ?)";
@@ -45,7 +45,7 @@ public class RawMaterialModel {
 
         return pstm.executeUpdate() > 0;
     }
-
+*/
 
     public RawMaterialDto searchRawMaterial(String rawMaterialId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
@@ -71,7 +71,7 @@ public class RawMaterialModel {
         return dto;
     }
 
-    public List<RawMaterialDto> getAllMaterials() throws SQLException {
+   /* public List<RawMaterialDto> getAllMaterials() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM raw_material";
@@ -102,7 +102,7 @@ public class RawMaterialModel {
         pstm.setString(1, rawMaterialId);
 
         return pstm.executeUpdate() > 0;
-    }
+    }*/
 
     public static List<RawMaterialDto> loadAllRawMaterials() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();

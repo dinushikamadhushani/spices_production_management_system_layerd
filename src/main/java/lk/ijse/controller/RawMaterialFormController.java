@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.custom.RawMaterialBO;
 import lk.ijse.bo.custom.impl.RawMaterialBOImpl;
+import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.dto.tm.RawMaterialTm;
 import lk.ijse.model.RawMaterialModel;
@@ -116,7 +117,7 @@ public class RawMaterialFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String rawId = txtRawId.getText();
+        /*String rawId = txtRawId.getText();
 
         var rawMaterialModel = new RawMaterialModel();
         try {
@@ -131,13 +132,35 @@ public class RawMaterialFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }*/
+
+        String id = tblRawMaterial.getSelectionModel().getSelectedItem().getRawMaterialId();
+        try {
+            if (!existRawMaterial(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+            }
+            rawMaterialBO.deleteRawMaterial(id);
+            tblRawMaterial.getItems().remove(tblRawMaterial.getSelectionModel().getSelectedItem());
+            tblRawMaterial.getSelectionModel().clearSelection();
+            // initUI();
+            clearFields();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
 
+    boolean existRawMaterial(String id) throws SQLException, ClassNotFoundException {
+        return rawMaterialBO.existRawMaterial(id);
+
+    }
+
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
-        String id = txtRawId.getText();
+    void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        /*String id = txtRawId.getText();
         String name = txtRawName.getText();
         Double qtyOnStock = Double.valueOf(txtQtyOnStock.getText());
         Double unitPrice = Double.valueOf(txtUnitPrice.getText());
@@ -162,7 +185,16 @@ public class RawMaterialFormController {
                 throw new RuntimeException(e);
             }
         }
+*/
 
+        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())),Double.parseDouble(String.valueOf(txtUnitPrice.getText())));
+        boolean isSave = rawMaterialBO.saveRawMaterial(rawMaterialDto);
+
+        if (isSave) {
+            new Alert(Alert.AlertType.CONFIRMATION, "customer saved!").show();
+            clearFields();
+            initialize();
+        }
     }
 
     private boolean validateRawMaterial() {
@@ -216,8 +248,8 @@ public class RawMaterialFormController {
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String rawMaterialId = txtRawId.getText();
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+       /* String rawMaterialId = txtRawId.getText();
         String rawMaterialName = txtRawName.getText();
         Double qtyOnStock = Double.valueOf(txtQtyOnStock.getText());
         Double unitPrice = Double.valueOf(txtUnitPrice.getText());
@@ -237,13 +269,20 @@ public class RawMaterialFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }*/
+
+        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())),Double.parseDouble(String.valueOf(txtUnitPrice.getText())));
+        boolean isUpdate = rawMaterialBO.updateRawMaterial(rawMaterialDto);
+        if(isUpdate) {
+            new Alert(Alert.AlertType.CONFIRMATION, "rawmaterial updated!").show();
+            initialize();
         }
 
     }
 
     @FXML
-    void txtRawIdSearchOnAction(ActionEvent event) {
-        String rawId = txtRawId.getText();
+    void txtRawIdSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        /*String rawId = txtRawId.getText();
 
         var model = new RawMaterialModel();
         try {
@@ -256,6 +295,16 @@ public class RawMaterialFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }*/
+
+        String rawMaterialid = txtRawId.getText();
+        RawMaterialDto rawMaterialDto = rawMaterialBO.searchRawMaterial(rawMaterialid);
+        System.out.println("hii");
+        if(rawMaterialDto != null) {
+
+            fillFields(rawMaterialDto);
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "customer not found!").show();
         }
 
     }
