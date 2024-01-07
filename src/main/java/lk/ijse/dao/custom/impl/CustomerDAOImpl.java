@@ -99,7 +99,8 @@ public class CustomerDAOImpl implements CustomerDAO {
    /* @Override
 
     public boolean delate (Customer customer) throws SQLException, ClassNotFoundException {
-       *//* Connection connection = DbConnection.getInstance().getConnection();
+       *//*case DELIVERY:
+                return new DeliveryDAOImpl(); Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM customer WHERE customer_id = ?";
         PreparedStatement pstm = connection.prepareStatement(sql);

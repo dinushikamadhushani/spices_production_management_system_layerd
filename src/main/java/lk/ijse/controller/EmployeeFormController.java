@@ -13,8 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.EmployeeBO;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
+import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.EmployeeTm;
+import lk.ijse.entity.Employee;
 import lk.ijse.model.EmployeeModel;
 
 import java.io.IOException;
@@ -75,6 +81,8 @@ public class EmployeeFormController {
     @FXML
     private AnchorPane root;
 
+    EmployeeBO employeeBO=new EmployeeBOImpl();
+
     public void initialize() {
         setCellValueFactory();
         loadAllEmployee();
@@ -96,9 +104,9 @@ public class EmployeeFormController {
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> dtoList = model.getAllEmployee();
+            List<Employee> dtoList = employeeBO.getAllEmployees();
 
-            for(EmployeeDto dto : dtoList) {
+            for(Employee dto : dtoList) {
                 obList.add(
                         new EmployeeTm(
                                 dto.getId(),
@@ -115,11 +123,10 @@ public class EmployeeFormController {
             tblEmployee.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
-
-
-
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -140,51 +147,38 @@ public class EmployeeFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String id = txtEmployeeId.getText();
 
-        var employeeModel = new EmployeeModel();
+
+        String id = tblEmployee.getSelectionModel().getSelectedItem().getId();
         try {
-            boolean isDeleted = employeeModel.deleteEmployee(id);
-
-            if(isDeleted) {
-                tblEmployee.refresh();
-                new Alert(Alert.AlertType.CONFIRMATION, "employee deleted!").show();
-                initialize();
+            if (!existEmployee(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+            employeeBO.deleteEmployee(id);
+            tblEmployee.getItems().remove(tblEmployee.getSelectionModel().getSelectedItem());
+            tblEmployee.getSelectionModel().clearSelection();
+            // initUI();
+            clearFields();
 
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
-        String id = txtEmployeeId.getText();
-        String name = txtEmployeeName.getText();
-        String email = txtEmail.getText();
-        String tel = txtTel.getText();
-        String jobTitle = txtJobTitle.getText();
-        Double salary = Double.valueOf(txtSalary.getText());
-        String date = txtDate.getText();
+    void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        boolean isValidate = validateEmployee();
 
-        if (isValidate) {
-            var dto = new EmployeeDto(id, name, email, tel, jobTitle, salary, date);
+        EmployeeDto employeeDto = new EmployeeDto(txtEmployeeId.getText(),txtEmployeeName.getText(),txtEmail.getText(),txtTel.getText(),txtJobTitle.getText(),Double.parseDouble(String.valueOf(txtSalary.getText())),txtDate.getText());
+        boolean isSave = employeeBO.saveEmployee(employeeDto);
 
-            var model = new EmployeeModel();
-            try {
-                boolean isSaved = model.saveEmployee(dto);
-                if (isSaved) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "employee saved!").show();
-                    clearFields();
-                    initialize();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-            }
+        if (isSave) {
+            new Alert(Alert.AlertType.CONFIRMATION, "employee saved!").show();
+            clearFields();
+            initialize();
         }
-
     }
 
     private boolean validateEmployee() {
@@ -252,48 +246,34 @@ public class EmployeeFormController {
 
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        String id = txtEmployeeId.getText();
-        String name = txtEmployeeName.getText();
-        String email = txtEmail.getText();
-        String tel = txtTel.getText();
-        String jobTitle = txtJobTitle.getText();
-        Double salary = Double.valueOf(txtSalary.getText());
-        String date = txtDate.getText();
-
-
-        var dto = new EmployeeDto(id, name, email, tel,jobTitle, salary, date);
-
-        var model = new EmployeeModel();
-        try {
-            boolean isUpdated = model.updateEmployee(dto);
-            System.out.println(isUpdated);
-            if(isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION, "employee updated!").show();
-                initialize();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        EmployeeDto employeeDto = new EmployeeDto(txtEmployeeId.getText(),txtEmployeeName.getText(),txtEmail.getText(),txtTel.getText(),txtJobTitle.getText(),Double.parseDouble(String.valueOf(txtSalary.getText())),txtDate.getText());
+        boolean isUpdate = employeeBO.updateEmployee(employeeDto);
+        if(isUpdate) {
+            new Alert(Alert.AlertType.CONFIRMATION, "employee updated!").show();
+            initialize();
         }
 
     }
 
+    boolean existEmployee(String id) throws SQLException, ClassNotFoundException {
+        return employeeBO.existEmployee(id);
+
+    }
+
+
     @FXML
-    void txtSearchOnAction(ActionEvent event) {
-        String id = txtEmployeeId.getText();
+    void txtSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        var model = new EmployeeModel();
-        try {
-            EmployeeDto dto = model.searchEmployee(id);
+        String employeeid = txtEmployeeId.getText();
+        EmployeeDto employeeDto = employeeBO.searchEmployee(employeeid);
+        System.out.println("hii");
+        if(employeeDto != null) {
 
-            if(dto != null) {
-                fillFields(dto);
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "employee not found!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            fillFields(employeeDto);
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "employee not found!").show();
         }
 
     }
@@ -308,8 +288,6 @@ public class EmployeeFormController {
         txtDate.setText(dto.getDate());
 
     }
-
-
 
     void clearFields() {
         txtEmployeeId.setText("");
