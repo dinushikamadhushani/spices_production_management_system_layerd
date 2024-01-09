@@ -1,31 +1,33 @@
 package lk.ijse.dto.tm;
 
-
-import javafx.scene.control.Button;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class ItemTm {
+
+
+public class OrderDetailTM {
     private String itemId;
     private String itemName;
+    private int qty;
     private BigDecimal unitPrice;
-    private int qtyOnHand;
-    private String rawMaterialId;
-    private Button btn;
+    private BigDecimal total;
 
     @Override
     public String toString() {
-        return "ItemDto{" +
+        return "OrderDetailTM{" +
                 "code='" + itemId + '\'' +
                 ", description='" + itemName + '\'' +
+                ", qty=" + qty +
                 ", unitPrice=" + unitPrice +
-                ", qtyOnHand=" + qtyOnHand +
+                ", total=" + total +
                 '}';
     }
+
+
 }

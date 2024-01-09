@@ -15,4 +15,14 @@ public class CustomerTm {
     private String name;
     private String address;
     private String tel;
+
+    @Override
+    public String toString() {
+        return "CustomerTm{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", tel='" + tel + '\'' +
+                '}';
+    }
 }

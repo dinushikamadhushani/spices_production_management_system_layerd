@@ -13,8 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.SupplierBO;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.SupplierBOImpl;
+import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
+import lk.ijse.entity.Supplier;
 import lk.ijse.model.SupplierModel;
 //import lk.ijse.dto.tm.SupplierTm;
 
@@ -65,6 +71,8 @@ public class SupplierFormController {
     @FXML
     private TextField txtSupTel;
 
+    SupplierBO supplierBO=new SupplierBOImpl();
+
     public void initialize() {
         setCellValueFactory();
         loadAllSuppliers();
@@ -84,9 +92,9 @@ public class SupplierFormController {
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> dtoList = model.getAllSuppliers();
+            List<Supplier> dtoList = supplierBO.getAllSuppliers();
 
-            for(SupplierDto dto : dtoList) {
+            for(Supplier dto : dtoList) {
                 obList.add(
                         new SupplierTm(
                                 dto.getSupplierId(),
@@ -100,6 +108,8 @@ public class SupplierFormController {
 
             tblSupplier.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -125,48 +135,44 @@ public class SupplierFormController {
 
     }
 
+    boolean existSupplier(String id) throws SQLException, ClassNotFoundException {
+        return supplierBO.existSupplier(id);
+
+    }
+
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String supplierId = txtSupId.getText();
 
-        var supplierModel = new SupplierModel();
+
+        String id = tblSupplier.getSelectionModel().getSelectedItem().getSupplierId();
         try {
-            boolean isDeleted = supplierModel.deleteSupplier(supplierId);
-
-            if(isDeleted) {
-                tblSupplier.refresh();
-                new Alert(Alert.AlertType.CONFIRMATION, "supplier deleted!").show();
-                initialize();
+            if (!existSupplier(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such supplier associated with the id " + id).show();
             }
+            supplierBO.deleteSupplier(id);
+            tblSupplier.getItems().remove(tblSupplier.getSelectionModel().getSelectedItem());
+            tblSupplier.getSelectionModel().clearSelection();
+            // initUI();
+            clearFields();
+
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the supplier " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
-        String supplierId = txtSupId.getText();
-        String supplierName = txtSupName.getText();
-        String address = txtSupAddress.getText();
-        String tel = txtSupTel.getText();
+    void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        boolean isValidate = validateSupplier();
+        SupplierDto supplierDto = new SupplierDto(txtSupId.getText(),txtSupName.getText(),txtSupAddress.getText(),txtSupTel.getText());
+        boolean isSave = supplierBO.saveSupplier(supplierDto);
 
-        if (isValidate) {
-            var dto = new SupplierDto(supplierId, supplierName, address, tel);
-
-            var model = new SupplierModel();
-            try {
-                boolean isSaved = model.saveSupplier(dto);
-                if (isSaved) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "supplier saved!").show();
-                    clearFields();
-                    initialize();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-            }
+        if (isSave) {
+            new Alert(Alert.AlertType.CONFIRMATION, "supplier saved!").show();
+            clearFields();
+            initialize();
         }
 
     }
@@ -223,43 +229,30 @@ public class SupplierFormController {
 
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String supplierId = txtSupId.getText();
-        String supplierName = txtSupName.getText();
-        String address = txtSupAddress.getText();
-        String tel = txtSupTel.getText();
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        var dto = new SupplierDto(supplierId, supplierName, address, tel);
 
-        var model = new SupplierModel();
-        try {
-            boolean isUpdated = model.updateSupplier(dto);
-            System.out.println(isUpdated);
-            if(isUpdated) {
-                new Alert(Alert.AlertType.CONFIRMATION, "supplier updated!").show();
-                initialize();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        SupplierDto supplierDto = new SupplierDto(txtSupId.getText(),txtSupName.getText(),txtSupAddress.getText(),txtSupTel.getText());
+        boolean isUpdate = supplierBO.updateSupplier(supplierDto);
+        if(isUpdate) {
+            new Alert(Alert.AlertType.CONFIRMATION, "supplier updated!").show();
+            initialize();
         }
 
     }
 
     @FXML
-    void txtSupIdSearchOnAction(ActionEvent event) {
-        String supplierId = txtSupId.getText();
+    void txtSupIdSearchOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        var model = new SupplierModel();
-        try {
-            SupplierDto dto = model.searchSupplier(supplierId);
 
-            if(dto != null) {
-                fillFields(dto);
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "supplier not found!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        String supplierid = txtSupId.getText();
+        SupplierDto supplierDto = supplierBO.searchSupplier(supplierid);
+        System.out.println("hii");
+        if(supplierDto != null) {
+
+            fillFields(supplierDto);
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "customer not found!").show();
         }
 
     }

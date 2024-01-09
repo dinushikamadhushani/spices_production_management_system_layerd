@@ -1,3 +1,4 @@
+/*
 package lk.ijse.dto.tm;
 
 
@@ -19,3 +20,4 @@ public class CartTm {
     private double tot;
     private Button btn;
 }
+*/

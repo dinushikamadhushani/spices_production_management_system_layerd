@@ -1,3 +1,4 @@
+/*
 package lk.ijse.dto;
 
 
@@ -20,3 +21,4 @@ public class PlaceOrderDto {
     private LocalDate date;
     private List<CartTm> tmList = new ArrayList<>();
 }
+*/

@@ -11,13 +11,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.bo.custom.impl.ItemBOImpl;
+import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ItemtDto;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.dto.tm.ItemTm;
+import lk.ijse.entity.Item;
 import lk.ijse.model.ItemModel;
 import lk.ijse.model.RawMaterialModel;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +77,8 @@ public class ItemFormController {
     @FXML
     private Label lblRawMaterialId;
 
+    ItemBO itemBO=new ItemBOImpl();
+
 
     private final ItemModel itemModel = new ItemModel();
 
@@ -94,11 +103,11 @@ public class ItemFormController {
 
     private void LoadAllItems()  {
         try {
-            List<ItemtDto> dtoList = itemModel.loadAllItems();
+            List<Item> dtoList = itemBO.getAllItems();
 
             ObservableList<ItemTm> obList = FXCollections.observableArrayList();
 
-            for(ItemtDto dto : dtoList) {
+            for(Item dto : dtoList) {
                 Button btn = new Button("remove");
                 btn.setCursor(Cursor.HAND);
 
@@ -130,7 +139,7 @@ public class ItemFormController {
                 obList.add(tm);
             }
             tblItem.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -150,13 +159,32 @@ public class ItemFormController {
     }
 
     private void deleteItem(String ItemId) {
-        try {
+        /*try {
             boolean isDeleted = itemModel.deleteItem(ItemId);
             if(isDeleted)
                 new Alert(Alert.AlertType.CONFIRMATION, "item deleted!").show();
         } catch (SQLException ex) {
             new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
+        }*/
+
+        String id = tblItem.getSelectionModel().getSelectedItem().getItemId();
+        try {
+            if (!existItem(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+            }
+            itemBO.deleteItem(id);
+            tblItem.getItems().remove(tblItem.getSelectionModel().getSelectedItem());
+            tblItem.getSelectionModel().clearSelection();
+            // initUI();
+            clearFields();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
+
     }
 
 
@@ -178,8 +206,8 @@ public class ItemFormController {
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
-        String itemId = txtItemId.getText();
+    void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        /*String itemId = txtItemId.getText();
         String itemName = txtItemName.getText();
         double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
@@ -200,7 +228,17 @@ public class ItemFormController {
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
+        }*/
+
+        ItemtDto itemtDto = new ItemtDto(txtItemId.getText(),txtItemName.getText(),BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText())),Integer.parseInt(String.valueOf(txtQtyOnHand.getText())),cmbRawMaterialId.getValue());
+        boolean isSave = itemBO.saveItem(itemtDto);
+
+        if (isSave) {
+            new Alert(Alert.AlertType.CONFIRMATION, "item saved!").show();
+            clearFields();
+            initialize();
         }
+
 
     }
 
@@ -259,8 +297,8 @@ public class ItemFormController {
 
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-        String itemId = txtItemId.getText();
+    void btnUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+       /* String itemId = txtItemId.getText();
         String itemName = txtItemName.getText();
         double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
@@ -275,13 +313,24 @@ public class ItemFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }*/
+        ItemtDto itemtDto = new ItemtDto(txtItemId.getText(),txtItemName.getText(),BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText())),Integer.parseInt(String.valueOf(txtQtyOnHand.getText())),cmbRawMaterialId.getValue());
+        boolean isUpdate = itemBO.updateItem(itemtDto);
+        if(isUpdate) {
+            new Alert(Alert.AlertType.CONFIRMATION, "item updated!").show();
+            initialize();
         }
+
+    }
+
+    boolean existItem(String id) throws SQLException, ClassNotFoundException {
+        return itemBO.existItem(id);
 
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String ItemId = txtItemId.getText();
+       /* String ItemId = txtItemId.getText();
 
         try {
             boolean isDeleted = itemModel.deleteItem(ItemId);
@@ -291,6 +340,23 @@ public class ItemFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }*/
+
+        String id = tblItem.getSelectionModel().getSelectedItem().getItemId();
+        try {
+            if (!existItem(id)) {
+                new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
+            }
+            itemBO.deleteItem(id);
+            tblItem.getItems().remove(tblItem.getSelectionModel().getSelectedItem());
+            tblItem.getSelectionModel().clearSelection();
+            // initUI();
+            clearFields();
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to delete the customer " + id).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -330,8 +396,8 @@ public class ItemFormController {
     }
 
 
-    public void itemIdSearchOnAction(ActionEvent actionEvent) {
-        String code = txtItemId.getText();
+    public void itemIdSearchOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        /*String code = txtItemId.getText();
 
         try {
             ItemtDto dto = itemModel.searchItem(code);
@@ -342,7 +408,17 @@ public class ItemFormController {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }*/
+
+        String itemid = txtItemId.getText();
+        ItemtDto itemtDto = itemBO.searchItem(itemid);
+        System.out.println("hii");
+        if(itemtDto != null) {
+            setFields(itemtDto);
+        } else {
+            new Alert(Alert.AlertType.INFORMATION, "item not found!").show();
         }
+
 
     }
 
