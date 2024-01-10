@@ -37,11 +37,7 @@ public class EmployeeBOImpl implements EmployeeBO {
     @Override
     public void deleteEmployee(String id) throws SQLException, ClassNotFoundException {
         employeeDAO.delete(id);
-
-
     }
-
-
 
     @Override
     public EmployeeDto searchEmployee(String id) throws SQLException, ClassNotFoundException {

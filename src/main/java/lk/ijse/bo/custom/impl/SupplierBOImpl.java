@@ -33,14 +33,6 @@ public class SupplierBOImpl implements SupplierBO {
     }
 
 
-
-   /* @Override
-    public boolean delateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.delate(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-
-    }*/
-
     @Override
     public void deleteSupplier(String id) throws SQLException, ClassNotFoundException {
         supplierDAO.delete(id);
@@ -48,28 +40,11 @@ public class SupplierBOImpl implements SupplierBO {
 
     }
 
-   /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-  /*  @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-
-  /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.search(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-    }*/
 
     @Override
     public SupplierDto searchSupplier(String id) throws SQLException, ClassNotFoundException {
         Supplier supplier=supplierDAO.search(id);
-        // CustomerDto customerDTO=new CustomerDto(customer.getCustomerId(),customer.getCustomerName(),customer.getAddress(),customer.getTel());
-        //  return customerDTO;
+
         if (supplier!=null){
             return new SupplierDto(supplier.getSupplierId(), supplier.getSupplierName(), supplier.getAddress(), supplier.getTel());
 

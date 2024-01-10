@@ -14,7 +14,7 @@ public class ItemBOImpl implements ItemBO {
     ItemDAO itemDAO =
             (ItemDAO) DAOFactory.getDaoFactory().
                     getDAO(DAOFactory.DAOTypes.ITEM);
-    // CustomerDAO customerDAO = new CustomerDAOImpl();
+
     @Override
     public boolean updateItem(ItemtDto itemtDto) throws SQLException, ClassNotFoundException {
 
@@ -32,16 +32,6 @@ public class ItemBOImpl implements ItemBO {
         return itemDAO.save(new Item(itemtDto.getItemId(),itemtDto.getItemName(),itemtDto.getUnitPrice(),itemtDto.getQtyOnHand(),itemtDto.getRawMaterialId()));
 
     }
-
-
-
-   /* @Override
-    public boolean delateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.delate(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-
-    }*/
-
     @Override
     public void deleteItem(String id) throws SQLException, ClassNotFoundException {
         itemDAO.delete(id);
@@ -49,28 +39,10 @@ public class ItemBOImpl implements ItemBO {
 
     }
 
-   /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-  /*  @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-
-  /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.search(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-    }*/
-
     @Override
     public ItemtDto searchItem(String id) throws SQLException, ClassNotFoundException {
         Item item=itemDAO.search(id);
-        // CustomerDto customerDTO=new CustomerDto(customer.getCustomerId(),customer.getCustomerName(),customer.getAddress(),customer.getTel());
-        //  return customerDTO;
+
         if (item!=null){
             return new ItemtDto(item.getItemId(),item.getItemName(),item.getUnitPrice(),item.getQtyOnHand(),item.getRawMaterialId());
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class RawMaterialBOImpl implements RawMaterialBO {
 
-   // RawMaterialDAO rawMaterialDAO = new RawMaterialDAOImpl();
+
 
     RawMaterialDAO rawMaterialDAO =
             (RawMaterialDAO) DAOFactory.getDaoFactory().
@@ -60,8 +60,7 @@ public class RawMaterialBOImpl implements RawMaterialBO {
 
     public RawMaterialDto searchRawMaterial(String id) throws SQLException, ClassNotFoundException {
         RawMaterial rawMaterial=rawMaterialDAO.search(id);
-        // CustomerDto customerDTO=new CustomerDto(customer.getCustomerId(),customer.getCustomerName(),customer.getAddress(),customer.getTel());
-        //  return customerDTO;
+
         if (rawMaterial!=null){
             return new RawMaterialDto(rawMaterial.getRawMaterialId(), rawMaterial.getRawMaterialName(), rawMaterial.getQtyOnStock(), rawMaterial.getUnitPrice());
         }else{

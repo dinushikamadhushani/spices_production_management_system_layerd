@@ -9,8 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.LoginBO;
+import lk.ijse.bo.custom.impl.LoginBOImpl;
 import lk.ijse.dto.UserDto;
-import lk.ijse.model.UserModel;
+//import lk.ijse.model.UserModel;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class ForgotPasswordFormController {
 
     private Stage stage;
 
+    LoginBO loginBO = new LoginBOImpl();
+
 
 
     @FXML
@@ -42,20 +46,22 @@ public class ForgotPasswordFormController {
         username = txtuserName.getText();
 
         System.out.println(username);
-        UserModel userModel = new UserModel();
+       // UserModel userModel = new UserModel();
         Random random = new Random();
         otp = random.nextInt(9000);
         otp += 1000;
 
         try {
 
-            UserDto user = userModel.getEmail(username);
+            UserDto user = loginBO.getEmail(username);
             System.out.println(user.getEmail());
 
             EmailController.sendEmail(user.getEmail(), "cafe au lait verification", otp + "");
 
         }catch (SQLException e){
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
         Parent rootNode = FXMLLoader.load(getClass().getResource("/view/otpForm.fxml"));

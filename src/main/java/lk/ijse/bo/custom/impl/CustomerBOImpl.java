@@ -15,7 +15,7 @@ public class CustomerBOImpl implements CustomerBO {
     CustomerDAO customerDAO =
             (CustomerDAO) DAOFactory.getDaoFactory().
                     getDAO(DAOFactory.DAOTypes.CUSTOMER);
-   // CustomerDAO customerDAO = new CustomerDAOImpl();
+
     @Override
     public boolean updateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
 
@@ -34,15 +34,6 @@ public class CustomerBOImpl implements CustomerBO {
 
     }
 
-
-
-   /* @Override
-    public boolean delateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.delate(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-
-    }*/
-
     @Override
     public void deleteCustomer(String id) throws SQLException, ClassNotFoundException {
         customerDAO.delete(id);
@@ -50,28 +41,11 @@ public class CustomerBOImpl implements CustomerBO {
 
     }
 
-   /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-  /*  @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return false;
-    }*/
-
-
-  /* @Override
-    public boolean searchCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
-        return customerDAO.search(new Customer(customerDto.getId(),customerDto.getName(),customerDto.getAddress(),customerDto.getTel()));
-
-    }*/
 
     @Override
     public CustomerDto searchCustomer(String id) throws SQLException, ClassNotFoundException {
         Customer customer=customerDAO.search(id);
-       // CustomerDto customerDTO=new CustomerDto(customer.getCustomerId(),customer.getCustomerName(),customer.getAddress(),customer.getTel());
-      //  return customerDTO;
+
         if (customer!=null){
             return new CustomerDto(customer.getCustomerId(), customer.getCustomerName(), customer.getAddress(), customer.getTel());
 

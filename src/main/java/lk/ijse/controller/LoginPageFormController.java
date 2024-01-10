@@ -8,7 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import lk.ijse.bo.custom.LoginBO;
 import lk.ijse.bo.custom.impl.LoginBOImpl;
-import lk.ijse.model.UserModel;
+//import lk.ijse.model.UserModel;
 import lk.ijse.util.Navigation;
 
 import java.io.IOException;

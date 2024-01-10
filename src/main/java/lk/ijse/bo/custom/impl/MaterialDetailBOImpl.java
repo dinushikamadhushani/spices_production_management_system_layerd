@@ -81,43 +81,10 @@ public class MaterialDetailBOImpl implements MaterialDetailBO {
     @Override
 
     public boolean getOrder(LocalDate OrderDate, String supplierId, List<SupplierDetailDto> supplierDetail) throws SQLException, ClassNotFoundException {
-       /* boolean result = false;
-        Connection connection = null;
-        try {
-            connection = DbConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
-
-            boolean isOrderSaved = supplierDetailDAO.save(gDto.getSupplierId(), gDto.getRawMaterialId(), LocalDate.now(),gDto.getTmList());
-            if (isOrderSaved) {
-                boolean isUpdated = RawMaterialModel.updateRawMaterial(gDto.getTmList());
-                if(isUpdated) {
-                    connection.commit();
-                    result = true;
-
-
-
-                }
-            }
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        } finally {
-            if (connection != null) {
-                connection.setAutoCommit(true);
-                // connection.close();
-            }
-        }
-        return result;*/
 
         Connection connection = null;
         connection= DbConnection.getInstance().getConnection();
 
-        //Check order id already exist or not
-
-
-
-
-        // add data to the Order Details table
 
         for (SupplierDetailDto detail : supplierDetail) {
             boolean b3 = supplierDetailDAO.save(new SupplierDetail(detail.getSupplierId(),detail.getRawMaterialId(),detail.getDate(),detail.getUnitPrice(),detail.getQtyOnStock()));

@@ -1,3 +1,5 @@
+
+/*
 package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
@@ -34,7 +36,9 @@ public class UserModel {
 
     }
 
-   /* public static boolean createaccount(String email,String create_password, String confirm_password){
+
+*/
+/* public static boolean createaccount(String email,String create_password, String confirm_password){
         try {
             DbConnection instance = DbConnection.getInstance();
             Connection connection = instance.getConnection();
@@ -66,7 +70,10 @@ public class UserModel {
 
     }
 
-    */
+    *//*
+*/
+/*
+
 
     public UserDto getEmail(String username) throws SQLException {
 
@@ -113,3 +120,5 @@ public class UserModel {
 
 
 }
+
+*/

@@ -31,19 +31,13 @@ public class DeliveryBOImpl implements DeliveryBO {
     @Override
     public void deleteDelivery(String id) throws SQLException, ClassNotFoundException {
         deliveryDAO.delete(id);
-
-
     }
 
     @Override
     public DeliveryDto searchDelivery(String id) throws SQLException, ClassNotFoundException {
         Delivery delivery=deliveryDAO.search(id);
-        // CustomerDto customerDTO=new CustomerDto(customer.getCustomerId(),customer.getCustomerName(),customer.getAddress(),customer.getTel());
-        //  return customerDTO;
         if (delivery!=null){
             return new DeliveryDto(delivery.getOrderId(),delivery.getDeliveryId(),delivery.getEmployeeId(),delivery.getLocation(),delivery.getDeliveryStatus(),delivery.getEmail());
-
-
         }else{
             return  null;
         }
