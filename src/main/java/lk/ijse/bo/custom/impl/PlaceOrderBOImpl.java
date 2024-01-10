@@ -9,7 +9,7 @@ import lk.ijse.entity.Customer;
 import lk.ijse.entity.Item;
 import lk.ijse.entity.Order;
 import lk.ijse.entity.OrderDetail;
-import lk.ijse.model.ItemModel;
+//import lk.ijse.model.ItemModel;
 //import lk.ijse.model.OrderModel;
 
 import java.sql.Connection;

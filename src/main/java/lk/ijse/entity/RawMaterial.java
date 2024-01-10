@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -12,5 +14,5 @@ public class RawMaterial {
     private String rawMaterialId;
     private String rawMaterialName;
     private Double qtyOnStock;
-    private Double unitPrice;
+    private BigDecimal unitPrice;
 }

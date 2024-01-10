@@ -21,7 +21,7 @@ import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.EmployeeTm;
 import lk.ijse.entity.Employee;
-import lk.ijse.model.EmployeeModel;
+//import lk.ijse.model.EmployeeModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -99,7 +99,7 @@ public class EmployeeFormController {
     }
 
     private void loadAllEmployee() {
-        var model = new EmployeeModel();
+        //var model = new EmployeeModel();
 
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
 
@@ -169,6 +169,20 @@ public class EmployeeFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        boolean isValidate = validateEmployee();
+        if(isValidate){
+            String id = txtEmployeeId.getText();
+            String name = txtEmployeeName.getText();
+            String email = txtEmail.getText();
+            String tel = txtTel.getText();
+            String jobTitle = txtJobTitle.getText();
+            double salary = Double.parseDouble(txtSalary.getText());
+            String date = txtDate.getText();
+
+
+
+            var dto = new EmployeeDto(id,name,email,tel,jobTitle,salary,date);
+        }
 
 
         EmployeeDto employeeDto = new EmployeeDto(txtEmployeeId.getText(),txtEmployeeName.getText(),txtEmail.getText(),txtTel.getText(),txtJobTitle.getText(),Double.parseDouble(String.valueOf(txtSalary.getText())),txtDate.getText());

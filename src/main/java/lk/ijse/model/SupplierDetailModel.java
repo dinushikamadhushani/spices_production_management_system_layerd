@@ -1,8 +1,9 @@
+/*
 package lk.ijse.model;
 
 
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.tm.MaterialCartTm;
+import lk.ijse.dto.tm.SupplierDetailTm;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,8 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class SupplierDetailModel {
-    public boolean saveSupplierDetail(String supplierId, String rawMaterialId, LocalDate date, List<MaterialCartTm> tmList) throws SQLException {
-        for (MaterialCartTm materialCartTm: tmList) {
+    public boolean saveSupplierDetail(String supplierId, String rawMaterialId, LocalDate date, List<SupplierDetailTm> tmList) throws SQLException {
+        for (SupplierDetailTm materialCartTm: tmList) {
             if(!saveMaterialDetail(supplierId,rawMaterialId,date,materialCartTm)) {
                 return false;
             }
@@ -21,7 +22,7 @@ public class SupplierDetailModel {
         return true;
     }
 
-    private boolean saveMaterialDetail(String supplierId, String rawMaterialId, LocalDate date, MaterialCartTm supplierDetailDto) throws SQLException {
+    private boolean saveMaterialDetail(String supplierId, String rawMaterialId, LocalDate date, SupplierDetailTm supplierDetailDto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO supplier_detail VALUES(?, ?, ? ,? ,?)";
@@ -30,9 +31,10 @@ public class SupplierDetailModel {
         pstm.setString(1,supplierId);
         pstm.setString(2, rawMaterialId);
         pstm.setDate(3, Date.valueOf(date));
-        pstm.setDouble(4, supplierDetailDto.getUnitPrice());
+        pstm.setBigDecimal(4, supplierDetailDto.getUnitPrice());
         pstm.setInt(5,supplierDetailDto.getQty());
 
         return pstm.executeUpdate() > 0;
     }
 }
+*/

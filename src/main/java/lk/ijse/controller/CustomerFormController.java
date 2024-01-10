@@ -18,7 +18,7 @@ import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.entity.Customer;
-import lk.ijse.model.CustomerModel;
+//import lk.ijse.model.CustomerModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -71,7 +71,7 @@ public class CustomerFormController {
     }
 
     private void loadAllCustomers() {
-        var model = new CustomerModel();
+       // var model = new CustomerModel();
 
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
@@ -121,6 +121,16 @@ public class CustomerFormController {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
         }*/
+
+        boolean isValidate = validateCustomer();
+        if(isValidate){
+            String id = txtId.getText();
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String tel = txtTel.getText();
+
+            var dto = new CustomerDto(id,name,address,tel);
+        }
 
         CustomerDto customerDto = new CustomerDto(txtId.getText(),txtName.getText(),txtAddress.getText(),txtTel.getText());
         boolean isSave = customerBO.saveCustomer(customerDto);

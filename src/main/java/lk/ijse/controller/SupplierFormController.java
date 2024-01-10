@@ -21,7 +21,7 @@ import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.SupplierTm;
 import lk.ijse.entity.Supplier;
-import lk.ijse.model.SupplierModel;
+//import lk.ijse.model.SupplierModel;
 //import lk.ijse.dto.tm.SupplierTm;
 
 import java.io.IOException;
@@ -87,7 +87,7 @@ public class SupplierFormController {
     }
 
     private void loadAllSuppliers() {
-        var model = new SupplierModel();
+       // var model = new SupplierModel();
 
         ObservableList<SupplierTm> obList = FXCollections.observableArrayList();
 
@@ -165,6 +165,16 @@ public class SupplierFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        boolean isValidate = validateSupplier();
+        if(isValidate){
+            String id = txtSupId.getText();
+            String name = txtSupName.getText();
+            String address = txtSupAddress.getText();
+            String tel = txtSupTel.getText();
+
+            var dto = new SupplierDto(id,name,address,tel);
+        }
 
         SupplierDto supplierDto = new SupplierDto(txtSupId.getText(),txtSupName.getText(),txtSupAddress.getText(),txtSupTel.getText());
         boolean isSave = supplierBO.saveSupplier(supplierDto);

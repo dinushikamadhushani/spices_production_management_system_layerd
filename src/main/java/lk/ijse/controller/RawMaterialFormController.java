@@ -18,9 +18,10 @@ import lk.ijse.bo.custom.impl.RawMaterialBOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.dto.tm.RawMaterialTm;
-import lk.ijse.model.RawMaterialModel;
+//import lk.ijse.model.RawMaterialModel;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -187,7 +188,17 @@ public class RawMaterialFormController {
         }
 */
 
-        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())),Double.parseDouble(String.valueOf(txtUnitPrice.getText())));
+        boolean isValidate = validateRawMaterial();
+        if(isValidate){
+            String id = txtRawId.getText();
+            String name = txtRawName.getText();
+            Double qtyOnStock = Double.valueOf(txtQtyOnStock.getText());
+            BigDecimal unitPrice = BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText()));
+
+            var dto = new RawMaterialDto(id,name,qtyOnStock,unitPrice);
+        }
+
+        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())), BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText())));
         boolean isSave = rawMaterialBO.saveRawMaterial(rawMaterialDto);
 
         if (isSave) {
@@ -271,7 +282,7 @@ public class RawMaterialFormController {
             throw new RuntimeException(e);
         }*/
 
-        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())),Double.parseDouble(String.valueOf(txtUnitPrice.getText())));
+        RawMaterialDto rawMaterialDto = new RawMaterialDto(txtRawId.getText(),txtRawName.getText(),Double.parseDouble(String.valueOf(txtQtyOnStock.getText())),BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText())));
         boolean isUpdate = rawMaterialBO.updateRawMaterial(rawMaterialDto);
         if(isUpdate) {
             new Alert(Alert.AlertType.CONFIRMATION, "rawmaterial updated!").show();

@@ -2,6 +2,7 @@ package lk.ijse.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,15 +15,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.custom.*;
+import lk.ijse.bo.custom.impl.*;
+import lk.ijse.dao.custom.RawMaterialDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.GetOrderDto;
-import lk.ijse.dto.RawMaterialDto;
-import lk.ijse.dto.SupplierDto;
-import lk.ijse.dto.tm.MaterialCartTm;
-import lk.ijse.model.GetOrderModel;
-import lk.ijse.model.RawMaterialModel;
-import lk.ijse.model.SupplierModel;
-import lk.ijse.model.*;
+import lk.ijse.dto.*;
+import lk.ijse.dto.tm.OrderDetailTM;
+import lk.ijse.dto.tm.SupplierDetailTm;
+//import lk.ijse.model.GetOrderModel;
+//import lk.ijse.model.RawMaterialModel;
+//import lk.ijse.model.SupplierModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -31,11 +33,14 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MaterialDetailFormController {
 
@@ -88,20 +93,46 @@ public class MaterialDetailFormController {
 
 
     @FXML
-    private TableView<MaterialCartTm> tblMaterialCart;
+    private TableView<SupplierDetailTm> tblMaterialCart;
 
     @FXML
     private TextField txtQty;
 
-    private final GetOrderModel getOrderModel = new GetOrderModel();
+    @FXML
+    private TextField txtMaterialName;
 
-    private final RawMaterialModel rawMaterialModel = new RawMaterialModel();
+    @FXML
+    private TextField txtQtyOnHand;
 
-    private  final SupplierModel supplierModel=new SupplierModel();
-    ObservableList<MaterialCartTm> obList1 = FXCollections.observableArrayList();
+    @FXML
+    private TextField txtUnitPrice;
+
+    @FXML
+    private TextField txtSupplierName;
+
+    @FXML
+    private JFXButton txtGetOrder;
+
+    @FXML
+    private JFXButton btnGetOrder;
 
 
-    public void initialize() {
+
+  //  private final GetOrderModel getOrderModel = new GetOrderModel();
+
+    //private final RawMaterialModel rawMaterialModel = new RawMaterialModel();
+
+   // private  final SupplierModel supplierModel=new SupplierModel();
+    ObservableList<SupplierDetailTm> obList1 = FXCollections.observableArrayList();
+
+    MaterialDetailBO materialDetailBO=new MaterialDetailBOImpl();
+
+    RawMaterialBO rawMaterialBO = new RawMaterialBOImpl();
+
+    SupplierBO supplierBO = new SupplierBOImpl();
+
+
+  /*  public void initialize() {
         setCellValueFactory();
         setDate();
         loadSupplierIds();
@@ -120,7 +151,7 @@ public class MaterialDetailFormController {
     private void loadRawMaterialIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<RawMaterialDto> rawList = rawMaterialModel.loadAllRawMaterials();
+            List<RawMaterialDto> rawList = rawMaterialBO.getAllMaterials();
 
             for (RawMaterialDto rawMaterialDto : rawList) {
                 obList.add(rawMaterialDto.getRawMaterialId());
@@ -128,6 +159,8 @@ public class MaterialDetailFormController {
 
             cmbMaterialId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -159,7 +192,7 @@ public class MaterialDetailFormController {
         int qty = Integer.parseInt(txtQty.getText());
         double hand = Double.parseDouble(lblQtyOnHand.getText());
         if (qty < hand) {
-            double unitPrice = Double.parseDouble(lblUnitPrice.getText());
+            BigDecimal unitPrice =  new BigDecimal(lblUnitPrice.getText());
 
             double total = qty * unitPrice;
             Button btn = new Button("remove");
@@ -194,7 +227,7 @@ public class MaterialDetailFormController {
                 }
             }
 
-            obList1.add(new MaterialCartTm(
+            obList1.add(new SupplierDetailTm(
                     materialId,
                     materialName,
                     qty,
@@ -250,9 +283,9 @@ public class MaterialDetailFormController {
         String rawMaterialId = cmbMaterialId.getValue();
         LocalDate date = LocalDate.parse(lblOrderDate.getText());
 
-        List<MaterialCartTm> tmList = new ArrayList<>();
+        List<SupplierDetailTm> tmList = new ArrayList<>();
 
-        for (MaterialCartTm materialCartTm : obList1) {
+        for (SupplierDetailTm materialCartTm : obList1) {
             tmList.add(materialCartTm);
         }
 
@@ -278,9 +311,9 @@ public class MaterialDetailFormController {
     }
 
     @FXML
-    void cmbSupplierOnAction(ActionEvent event) throws SQLException {
+    void cmbSupplierOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String supplierId = cmbSupplierId.getValue();
-        SupplierDto dto = supplierModel.searchSupplier(supplierId);
+        SupplierDto dto = supplierBO.searchSupplier(supplierId);
 
         lblSupplierName.setText(dto.getSupplierName());
 
@@ -294,13 +327,15 @@ public class MaterialDetailFormController {
         txtQty.requestFocus();
 
         try {
-            RawMaterialDto dto = rawMaterialModel.searchRawMaterial(rawMaterialId);
+            RawMaterialDto dto = rawMaterialBO.searchRawMaterial(rawMaterialId);
 
             lblMaterialName.setText(dto.getRawMaterialName());
             lblUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
             lblQtyOnHand.setText(String.valueOf(dto.getQtyOnStock()));
 
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -312,6 +347,349 @@ public class MaterialDetailFormController {
         btnAddOnAction(event);
 
     }
+
+    @FXML
+    void btnPrintOnAction(ActionEvent event) {
+        InputStream resource = this.getClass().getResourceAsStream("/reports/Material.jrxml");
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(resource);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
+    public void initialize() throws SQLException, ClassNotFoundException {
+
+        tblMaterialCart.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("rawMaterialId"));
+        tblMaterialCart.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("materialName"));
+        tblMaterialCart.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("qty"));
+        tblMaterialCart.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        tblMaterialCart.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("total"));
+        TableColumn<SupplierDetailTm, Button> lastCol = (TableColumn<SupplierDetailTm, Button>) tblMaterialCart.getColumns().get(5);
+
+        lastCol.setCellValueFactory(param -> {
+            Button btnDelete = new Button("Delete");
+
+            btnDelete.setOnAction(event -> {
+                tblMaterialCart.getItems().remove(param.getValue());
+                tblMaterialCart.getSelectionModel().clearSelection();
+                calculateTotal();
+                enableOrDisableGetOrderButton();
+            });
+
+            return new ReadOnlyObjectWrapper<>(btnDelete);
+        });
+
+        //orderId = generateNewOrderId();
+       // lblOrderId.setText("Order id: " + orderId);
+        lblOrderDate.setText(LocalDate.now().toString());
+        btnGetOrder.setDisable(true);
+        txtMaterialName.setFocusTraversable(false);
+        txtSupplierName.setEditable(false);
+        txtMaterialName.setFocusTraversable(false);
+        txtMaterialName.setEditable(false);
+        txtUnitPrice.setFocusTraversable(false);
+        txtUnitPrice.setEditable(false);
+        txtQtyOnHand.setFocusTraversable(false);
+        txtQtyOnHand.setEditable(false);
+        txtQty.setOnAction(event -> btnAdd.fire());
+        txtQty.setEditable(false);
+        btnAdd.setDisable(true);
+
+        cmbSupplierId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            enableOrDisableGetOrderButton();
+            if (newValue != null) {
+                try {
+                    try {
+                        if (!existSupplier(newValue + "")) {
+                            //"There is no such customer associated with the id " + id
+                            new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
+                        }
+                        //Search Customer
+                        SupplierDto supplierDto = materialDetailBO.searchSupplier(newValue + "");
+                        txtSupplierName.setText(supplierDto.getSupplierName());
+
+                    } catch (SQLException e) {
+                        new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                txtSupplierName.clear();
+            }
+        });
+
+
+        cmbMaterialId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newItemId) -> {
+            txtQty.setEditable(newItemId != null);
+            btnAdd.setDisable(newItemId == null);
+
+            if (newItemId != null) {
+
+                /*Find Item*/
+                try {
+                    if (!existRawMaterial(newItemId + "")) {
+//                        throw new NotFoundException("There is no such item associated with the id " + code);
+                    }
+
+                    //Search Item
+                    RawMaterialDto item = materialDetailBO.searchRawMaterial(newItemId + "");
+
+                    txtSupplierName.setText(item.getRawMaterialName());
+                    txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
+
+//                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
+                    Optional<SupplierDetailTm> optOrderDetail = tblMaterialCart.getItems().stream().filter(detail -> detail.getRawMaterialId().equals(newItemId)).findFirst();
+                    txtQtyOnHand.setText((optOrderDetail.isPresent() ? item.getQtyOnStock() - optOrderDetail.get().getQty() : item.getQtyOnStock()) + "");
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                txtMaterialName.clear();
+                txtQty.clear();
+                txtQtyOnHand.clear();
+                txtUnitPrice.clear();
+            }
+        });
+
+        tblMaterialCart.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedOrderDetail) -> {
+
+            if (selectedOrderDetail != null) {
+                cmbMaterialId.setDisable(true);
+                cmbMaterialId.setValue(selectedOrderDetail.getRawMaterialId());
+                btnAdd.setText("Update");
+                lblQtyOnHand.setText(Integer.parseInt(lblQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
+                txtQty.setText(selectedOrderDetail.getQty() + "");
+            } else {
+                btnAdd.setText("Add");
+                cmbMaterialId.setDisable(false);
+                cmbMaterialId.getSelectionModel().clearSelection();
+                txtQty.clear();
+            }
+
+        });
+
+        loadAllSupplierIds();
+        loadAllRawMaterials();
+    }
+
+    private boolean existRawMaterial(String id) throws SQLException, ClassNotFoundException {
+        return materialDetailBO.existRawMaterial(id);
+    }
+
+    boolean existSupplier(String id) throws SQLException, ClassNotFoundException {
+        return materialDetailBO.existSupplier(id);
+    }
+
+  /*  public String generateNewOrderId() {
+        try {
+            return placeOrderBO.generateOrderID();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "OID-001";
+    }*/
+
+    private void loadAllSupplierIds() {
+        try {
+            ArrayList<SupplierDto> allSuppliers = materialDetailBO.getAllSupplier();
+            for (SupplierDto c : allSuppliers) {
+                cmbSupplierId.getItems().add(c.getSupplierId());
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to load suppliers ids").show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAllRawMaterials() {
+        try {
+            /*Get all items*/
+
+            ArrayList<RawMaterialDto> allRawMaterial = materialDetailBO.getAllRawMaterials();
+            for (RawMaterialDto i : allRawMaterial) {
+                cmbMaterialId.getItems().add(i.getRawMaterialId());
+            }
+
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+   /* @FXML
+    private void navigateToHome(MouseEvent event) throws IOException {
+        URL resource = this.getClass().getResource("/com/example/layeredarchitecture/main-form.fxml");
+        Parent root = FXMLLoader.load(resource);
+        Scene scene = new Scene(root);
+        Stage primaryStage = (Stage) (this.root.getScene().getWindow());
+        primaryStage.setScene(scene);
+        primaryStage.centerOnScreen();
+        Platform.runLater(() -> primaryStage.sizeToScene());
+    }*/
+
+    public void btnAddOnAction(ActionEvent actionEvent) {
+
+        if (!txtQty.getText().matches("\\d+") || Integer.parseInt(txtQty.getText()) <= 0 ||
+                Integer.parseInt(txtQty.getText()) > Integer.parseInt(txtQtyOnHand.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Invalid qty").show();
+            txtQty.requestFocus();
+            txtQty.selectAll();
+            return;
+        }
+
+        String materialId = cmbMaterialId.getSelectionModel().getSelectedItem();
+        String materialName = txtMaterialName.getText();
+        BigDecimal unitPrice = new BigDecimal(txtUnitPrice.getText()).setScale(2);
+        int qty = Integer.parseInt(txtQty.getText());
+        BigDecimal total = unitPrice.multiply(new BigDecimal(qty)).setScale(2);
+
+        boolean exists = tblMaterialCart.getItems().stream().anyMatch(detail -> detail.getRawMaterialId().equals(materialId));
+
+        if (exists) {
+            SupplierDetailTm supplierDetailTm = tblMaterialCart.getItems().stream().filter(detail -> detail.getRawMaterialId().equals(materialId)).findFirst().get();
+
+            if (btnAdd.getText().equalsIgnoreCase("Update")) {
+                supplierDetailTm.setQty(qty);
+                supplierDetailTm.setTotal(total);
+                tblMaterialCart.getSelectionModel().clearSelection();
+            } else {
+                supplierDetailTm.setQty(supplierDetailTm.getQty() + qty);
+                total = new BigDecimal(supplierDetailTm.getQty()).multiply(unitPrice).setScale(2);
+                supplierDetailTm.setTotal(total);
+            }
+            tblMaterialCart.refresh();
+        } else {
+            tblMaterialCart.getItems().add(new SupplierDetailTm(materialId, materialName, qty, unitPrice, total));
+        }
+        cmbMaterialId.getSelectionModel().clearSelection();
+        cmbMaterialId.requestFocus();
+        calculateTotal();
+        enableOrDisableGetOrderButton();
+    }
+
+    private void calculateTotal() {
+        BigDecimal total = new BigDecimal(0);
+
+        for (SupplierDetailTm detail : tblMaterialCart.getItems()) {
+            total = total.add(detail.getTotal());
+        }
+        lblNetTotal.setText("Total: " + total);
+    }
+
+    private void enableOrDisableGetOrderButton() {
+        btnGetOrder.setDisable(!(cmbSupplierId.getSelectionModel().getSelectedItem() != null && !tblMaterialCart.getItems().isEmpty()));
+    }
+
+    public void txtQtyOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnGetOrderOnAction(ActionEvent actionEvent) {
+        boolean b = saveOrder(LocalDate.now(), cmbSupplierId.getValue(),
+                tblMaterialCart.getItems().stream().map(tm -> new SupplierDetailDto(tm.getSupplierId(), tm.getRawMaterialId(),LocalDate.now(), tm.getUnitPrice(),tm.getQty())).collect(Collectors.toList()));
+
+        if (b) {
+            new Alert(Alert.AlertType.INFORMATION, "Order has been placed successfully").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Order has not been placed successfully").show();
+        }
+
+       // orderId = generateNewOrderId();
+       // lblOrderId.setText("Order id: " + orderId);
+        cmbSupplierId.getSelectionModel().clearSelection();
+        cmbMaterialId.getSelectionModel().clearSelection();
+        tblMaterialCart.getItems().clear();
+        txtQty.clear();
+        calculateTotal();
+    }
+
+    public boolean saveOrder(LocalDate orderDate, String supplierId, List<SupplierDetailDto> supplierDetails) {
+        try {
+            return materialDetailBO.getOrder(orderDate,supplierId,supplierDetails);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void cmbMaterialIdOnAction(ActionEvent event) {
+        String rawMaterialId = cmbMaterialId.getValue();
+
+        txtQty.requestFocus();
+
+        try {
+            RawMaterialDto dto = rawMaterialBO.searchRawMaterial(rawMaterialId);
+
+            txtMaterialName.setText(dto.getRawMaterialName());
+            txtUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
+            txtQtyOnHand.setText(String.valueOf(dto.getQtyOnStock()));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void cmbSupplierOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String supplierId = cmbSupplierId.getValue();
+        SupplierDto dto = supplierBO.searchSupplier(supplierId);
+
+        txtSupplierName.setText(dto.getSupplierName());
+    }
+
+    @FXML
+    void btnBackOnAction(ActionEvent event) throws IOException {
+        Parent anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboardForm.fxml"));
+        Stage stage = (Stage) root.getScene().getWindow();
+
+        stage.setScene(new Scene(anchorPane));
+        stage.setTitle("Dashboard");
+        stage.centerOnScreen();
+    }
+
+    @FXML
+    void btnNewSupplierOnAction(ActionEvent event) throws IOException {
+        Parent anchorPane = FXMLLoader.load(getClass().getResource("/view/supplierForm.fxml"));
+        Scene scene = new Scene(anchorPane);
+
+        Stage stage = new Stage();
+        stage.setTitle("Customer Manage");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+
+    /*public void btnPrintOnAction(ActionEvent actionEvent) {
+        InputStream resource = this.getClass().getResourceAsStream("/reports/Blank_A4.jrxml");
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(resource);
+            HashMap map = new HashMap<>();
+            map.put("orderId", lblOrderId.getText());
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, DbConnection.getInstance().getConnection());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }*/
 
     @FXML
     void btnPrintOnAction(ActionEvent event) {

@@ -22,7 +22,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
                     resultSet.getString("rawMaterial_id"),
                     resultSet.getString("material_name"),
                     resultSet.getDouble("qty_on_stock"),
-                    resultSet.getDouble("unit_price"));
+                    resultSet.getBigDecimal("unit_price"));
 
             rawMaterials.add(rawMaterial);
 
@@ -69,7 +69,7 @@ public class RawMaterialDAOImpl implements RawMaterialDAO {
         ResultSet rst = SQLUtil.execute("SELECT * FROM raw_material WHERE rawMaterial_id=?",id);
         while (rst.next()) {
             // return new Customer(id + "", rst.getString("name"), rst.getString("address"),rst.getString("tel"));
-            RawMaterial rawMaterial = new RawMaterial(rst.getString(1), rst.getString(2), rst.getDouble(3), rst.getDouble(4));
+            RawMaterial rawMaterial = new RawMaterial(rst.getString(1), rst.getString(2), rst.getDouble(3), rst.getBigDecimal(4));
             return rawMaterial;
         }
         return null;

@@ -13,15 +13,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.bo.custom.RawMaterialBO;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.bo.custom.impl.ItemBOImpl;
+import lk.ijse.bo.custom.impl.RawMaterialBOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ItemtDto;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.entity.Item;
-import lk.ijse.model.ItemModel;
-import lk.ijse.model.RawMaterialModel;
+//import lk.ijse.model.ItemModel;
+//import lk.ijse.model.RawMaterialModel;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -79,8 +81,10 @@ public class ItemFormController {
 
     ItemBO itemBO=new ItemBOImpl();
 
+    RawMaterialBO rawMaterialBO = new RawMaterialBOImpl();
 
-    private final ItemModel itemModel = new ItemModel();
+
+ //   private final ItemModel itemModel = new ItemModel();
 
 
 
@@ -147,13 +151,15 @@ public class ItemFormController {
     private void loadRawMaterialsIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<RawMaterialDto> rawList = RawMaterialModel.loadAllRawMaterials();
+            List<RawMaterialDto> rawList = rawMaterialBO.getAllMaterials();
 
             for (RawMaterialDto dto : rawList) {
                 obList.add(dto.getRawMaterialId());
             }
             cmbRawMaterialId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -230,6 +236,17 @@ public class ItemFormController {
             }
         }*/
 
+        boolean isValidate = validateItem();
+        if(isValidate){
+            String itemId = txtItemId.getText();
+            String itemName = txtItemName.getText();
+            BigDecimal unitPrice = BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText()));
+            int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
+            String rawMaterialId = cmbRawMaterialId.getValue();
+
+            var dto = new ItemtDto(itemId,itemName,unitPrice,qtyOnHand,rawMaterialId);
+        }
+
         ItemtDto itemtDto = new ItemtDto(txtItemId.getText(),txtItemName.getText(),BigDecimal.valueOf(Long.parseLong(txtUnitPrice.getText())),Integer.parseInt(String.valueOf(txtQtyOnHand.getText())),cmbRawMaterialId.getValue());
         boolean isSave = itemBO.saveItem(itemtDto);
 
@@ -267,7 +284,7 @@ public class ItemFormController {
 
         }
 
-        Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+       /* Double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         String unitPriceString = String.format("%.2f",unitPrice);
         boolean isUnitPriceValidation = Pattern.matches("^[1-9]\\d{0,6}\\.\\d{2}$", unitPriceString);
 
@@ -276,7 +293,7 @@ public class ItemFormController {
             new Alert(Alert.AlertType.ERROR, "INVALID ITEM Unit price").show();
             txtUnitPrice.setStyle("-fx-border-color: Red");
 
-        }
+        }*/
 
         String qtyOnHandText = txtQtyOnHand.getText();
 

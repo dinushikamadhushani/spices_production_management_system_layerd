@@ -1,9 +1,11 @@
+/*
 package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.RawMaterialDto;
-import lk.ijse.dto.tm.MaterialCartTm;
+import lk.ijse.dto.tm.SupplierDetailTm;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RawMaterialModel {
-    /*public boolean saveRawMaterial(final RawMaterialDto dto) throws SQLException {
+    */
+/*public boolean saveRawMaterial(final RawMaterialDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO raw_material VALUES(?, ?, ?, ?)";
@@ -45,7 +48,8 @@ public class RawMaterialModel {
 
         return pstm.executeUpdate() > 0;
     }
-*/
+*//*
+
 
     public RawMaterialDto searchRawMaterial(String rawMaterialId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
@@ -62,7 +66,7 @@ public class RawMaterialModel {
             String raw_id = resultSet.getString(1);
             String raw_name = resultSet.getString(2);
             Double qty = resultSet.getDouble(3);
-            Double unit_price = resultSet.getDouble(4);
+            BigDecimal unit_price = resultSet.getBigDecimal(4);
 
 
             dto = new RawMaterialDto(raw_id, raw_name, qty, unit_price);
@@ -71,7 +75,8 @@ public class RawMaterialModel {
         return dto;
     }
 
-   /* public List<RawMaterialDto> getAllMaterials() throws SQLException {
+   */
+/* public List<RawMaterialDto> getAllMaterials() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM raw_material";
@@ -102,7 +107,8 @@ public class RawMaterialModel {
         pstm.setString(1, rawMaterialId);
 
         return pstm.executeUpdate() > 0;
-    }*/
+    }*//*
+
 
     public static List<RawMaterialDto> loadAllRawMaterials() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
@@ -117,15 +123,15 @@ public class RawMaterialModel {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),
-                    resultSet.getDouble(4)
+                    resultSet.getBigDecimal(4)
 
             ));
         }
         return rawList;
     }
 
-    public static boolean updateRawMaterial(List<MaterialCartTm> tmList) throws SQLException {
-        for (MaterialCartTm materialCartTm : tmList) {
+    public static boolean updateRawMaterial(List<SupplierDetailTm> tmList) throws SQLException {
+        for (SupplierDetailTm materialCartTm : tmList) {
             if(!updateQty(materialCartTm)) {
                 return false;
             }
@@ -135,7 +141,7 @@ public class RawMaterialModel {
 
 
 
-    private static boolean updateQty(MaterialCartTm materialCartTm) throws SQLException {
+    private static boolean updateQty(SupplierDetailTm materialCartTm) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE raw_material SET qty_on_stock = qty_on_stock + ? WHERE rawMaterial_id = ?";
@@ -147,3 +153,4 @@ public class RawMaterialModel {
     }
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package lk.ijse.model;
 
 
@@ -42,7 +43,8 @@ public class CustomerModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public CustomerDto searchCustomer(String id) throws SQLException {
+   */
+/* public CustomerDto searchCustomer(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
@@ -63,7 +65,8 @@ public class CustomerModel {
         }
 
         return dto;
-    }
+    }*//*
+
 
     public List<CustomerDto> getAllCustomers() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
@@ -116,3 +119,4 @@ public class CustomerModel {
         return cusList;
     }
 }
+*/

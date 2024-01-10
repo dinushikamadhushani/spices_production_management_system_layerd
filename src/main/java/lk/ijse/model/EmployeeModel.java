@@ -1,3 +1,4 @@
+/*
 package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
@@ -132,3 +133,4 @@ public class EmployeeModel {
 
 
 }
+*/

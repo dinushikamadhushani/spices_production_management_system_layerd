@@ -1,21 +1,21 @@
-package lk.ijse.dto;
+package lk.ijse.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 
-public class MaterialCartDto {
+public class SupplierDetail {
 
     private String supplierId;
     private String rawMaterialId;
-
     private LocalDate date;
-
-    private  Double unitPrice;
-
+    private BigDecimal unitPrice;
     private int qtyOnStock;
 }

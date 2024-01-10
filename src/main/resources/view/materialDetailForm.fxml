@@ -40,11 +40,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblSupplierName" layoutX="731.0" layoutY="150.0" textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
       <Label layoutX="108.0" layoutY="208.0" text="Material id:" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -56,27 +51,12 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblMaterialName" layoutX="365.0" layoutY="248.0" prefHeight="21.0" prefWidth="108.0" textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
       <Label layoutX="500.0" layoutY="213.0" text="Unit Price:" textFill="#fff8f8">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lblUnitPrice" layoutX="512.0" layoutY="247.0" prefHeight="21.0" prefWidth="88.0" textFill="#278d7f">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
       <Label layoutX="621.0" layoutY="212.0" text="Qty. On Hand:" textFill="#f2eeee">
-         <font>
-            <Font name="System Bold" size="17.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblQtyOnHand" layoutX="634.0" layoutY="242.0" prefHeight="21.0" prefWidth="102.0" textFill="#278d7f">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
@@ -102,7 +82,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="724.0" layoutY="564.0" onAction="#btnGetOrderOnAction" prefHeight="34.0" prefWidth="117.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Get Order" textFill="WHITE">
+      <JFXButton fx:id="btnGetOrder" buttonType="RAISED" layoutX="724.0" layoutY="564.0" onAction="#btnGetOrderOnAction" prefHeight="34.0" prefWidth="117.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../style/stylesheet.css" text="Get Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -139,5 +119,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <TextField fx:id="txtMaterialName" layoutX="303.0" layoutY="251.0" prefHeight="24.0" prefWidth="119.0" />
+      <TextField fx:id="txtUnitPrice" layoutX="474.0" layoutY="251.0" prefHeight="24.0" prefWidth="119.0" />
+      <TextField fx:id="txtQtyOnHand" layoutX="630.0" layoutY="251.0" prefHeight="24.0" prefWidth="119.0" />
+      <TextField fx:id="txtSupplierName" layoutX="738.0" layoutY="153.0" prefHeight="24.0" prefWidth="136.0" />
    </children>
 </AnchorPane>

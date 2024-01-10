@@ -31,8 +31,8 @@ import lk.ijse.dto.OrderDetailDTO;
 //import lk.ijse.dto.PlaceOrderDto;
 //import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.OrderDetailTM;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.ItemModel;
+//import lk.ijse.model.CustomerModel;
+//import lk.ijse.model.ItemModel;
 //import lk.ijse.model.OrderModel;
 //import lk.ijse.model.PlaceOrderModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -54,8 +54,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PlaceOrderFormController {
-    private final CustomerModel customerModel = new CustomerModel();
-    private final ItemModel itemModel = new ItemModel();
+  //  private final CustomerModel customerModel = new CustomerModel();
+   // private final ItemModel itemModel = new ItemModel();
    // private final OrderModel orderModel = new OrderModel();
    // private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
    // private JFXButton btnAddToCart;
@@ -643,9 +643,9 @@ public class PlaceOrderFormController {
     }
 
     @FXML
-    void cmbCustomerOnAction(ActionEvent event) throws SQLException {
+    void cmbCustomerOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String customerId = cmbCustomerId.getValue();
-        CustomerDto dto = customerModel.searchCustomer(customerId);
+        CustomerDto dto = customerBO.searchCustomer(customerId);
 
         txtCustomerName.setText(dto.getName());
     }

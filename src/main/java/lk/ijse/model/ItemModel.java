@@ -1,3 +1,4 @@
+/*
 package lk.ijse.model;
 
 
@@ -51,7 +52,6 @@ public class ItemModel {
         }
         return true;
     }
-
 
 
     private static boolean updateQty(OrderDetailTM orderDetailTM) throws SQLException {
@@ -123,3 +123,4 @@ public class ItemModel {
         return dtoList;
     }
 }
+*/

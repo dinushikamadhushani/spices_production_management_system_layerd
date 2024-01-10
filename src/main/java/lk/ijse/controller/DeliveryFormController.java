@@ -12,13 +12,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.bo.custom.DeliveryBO;
+import lk.ijse.bo.custom.EmployeeBO;
 import lk.ijse.bo.custom.impl.DeliveryBOImpl;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.DeliveryDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.DeliveryTm;
-import lk.ijse.model.DeliveryModel;
-import lk.ijse.model.EmployeeModel;
+import lk.ijse.entity.Delivery;
+//import lk.ijse.model.DeliveryModel;
+import lk.ijse.entity.Employee;
+//import lk.ijse.model.EmployeeModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -86,6 +90,8 @@ public class DeliveryFormController {
 
     DeliveryBO deliveryBO = new DeliveryBOImpl();
 
+    EmployeeBO employeeBO = new EmployeeBOImpl();
+
     public void initialize() {
         setCellValueFactory();
         loadAllDelivery();
@@ -97,13 +103,15 @@ public class DeliveryFormController {
     private void loadEmployeeEmails() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> empList = EmployeeModel.loadAllEmployee();
+            List<Employee> empList = employeeBO.getAllEmployees();
 
-            for (EmployeeDto dto : empList) {
+            for (Employee dto : empList) {
                 obList.add(dto.getEmail());
             }
             cmbEmail.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -119,14 +127,14 @@ public class DeliveryFormController {
     }
 
     private void loadAllDelivery() {
-        var model = new DeliveryModel();
+       // var model = new DeliveryModel();
 
         ObservableList<DeliveryTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<DeliveryDto> dtoList = model.getAllDelivery();
+            List<Delivery> dtoList = deliveryBO.getAllDeliveries();
 
-            for(DeliveryDto dto : dtoList) {
+            for(Delivery dto : dtoList) {
                 obList.add(
                         new DeliveryTm(
                                 dto.getDeliveryId(),
@@ -142,19 +150,23 @@ public class DeliveryFormController {
             tblDelivery.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     private void loadEmployeessIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<EmployeeDto> empList = EmployeeModel.loadAllEmployee();
+            List<Employee> empList = employeeBO.getAllEmployees();
 
-            for (EmployeeDto dto : empList) {
+            for (Employee dto : empList) {
                 obList.add(dto.getId());
             }
             cmbEmployeeId.setItems(obList);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -248,11 +260,23 @@ public class DeliveryFormController {
             }
         }
 */
+
+        boolean isValidate = validateDelivery();
+        if (isValidate){
+            String deliveryId = txtDeliveryId.getText();
+            String orderId = txtOrderId.getText();
+            String employeeId = cmbEmployeeId.getValue();
+            String location = txtLocation.getText();
+            String deliveryStatus = txtDeliveryStatus.getText();
+            String email = cmbEmail.getValue();
+
+            var dto = new DeliveryDto(deliveryId,orderId,employeeId,location,deliveryStatus,email);
+        }
         DeliveryDto deliveryDto = new DeliveryDto(txtDeliveryId.getText(),txtOrderId.getText(),cmbEmployeeId.getValue(),txtLocation.getText(),txtDeliveryStatus.getText(),cmbEmail.getValue());
         boolean isSave = deliveryBO.saveDelivery(deliveryDto);
 
         if (isSave) {
-            new Alert(Alert.AlertType.CONFIRMATION, "customer saved!").show();
+            new Alert(Alert.AlertType.CONFIRMATION, "delivery saved!").show();
             clearFields();
             initialize();
         }
