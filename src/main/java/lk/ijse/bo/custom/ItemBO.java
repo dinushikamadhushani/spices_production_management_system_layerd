@@ -1,13 +1,14 @@
 package lk.ijse.bo.custom;
 
+import lk.ijse.bo.SuperBO;
 import lk.ijse.dto.ItemtDto;
 import lk.ijse.entity.Item;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ItemBO {
-    // CustomerDAO customerDAO = new CustomerDAOImpl();
+public interface ItemBO extends SuperBO {
+
     boolean updateItem(ItemtDto itemtDto) throws SQLException, ClassNotFoundException;
 
     List<Item> getAllItems() throws SQLException, ClassNotFoundException;

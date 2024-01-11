@@ -466,7 +466,7 @@ public class MaterialDetailFormController {
                 cmbMaterialId.setDisable(true);
                 cmbMaterialId.setValue(selectedOrderDetail.getRawMaterialId());
                 btnAdd.setText("Update");
-                lblQtyOnHand.setText(Integer.parseInt(lblQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
+                txtQtyOnHand.setText(Integer.parseInt(txtQtyOnHand.getText()) + selectedOrderDetail.getQty() + "");
                 txtQty.setText(selectedOrderDetail.getQty() + "");
             } else {
                 btnAdd.setText("Add");
@@ -543,7 +543,8 @@ public class MaterialDetailFormController {
     public void btnAddOnAction(ActionEvent actionEvent) {
 
         if (!txtQty.getText().matches("\\d+") || Integer.parseInt(txtQty.getText()) <= 0 ||
-                Integer.parseInt(txtQty.getText()) > Integer.parseInt(txtQtyOnHand.getText())) {
+                Double.parseDouble(txtQty.getText()) > Double.parseDouble(txtQtyOnHand.getText()))
+                 {
             new Alert(Alert.AlertType.ERROR, "Invalid qty").show();
             txtQty.requestFocus();
             txtQty.selectAll();

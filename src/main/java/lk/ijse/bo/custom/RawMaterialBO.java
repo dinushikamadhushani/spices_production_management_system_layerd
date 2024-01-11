@@ -1,5 +1,6 @@
 package lk.ijse.bo.custom;
 
+import lk.ijse.bo.SuperBO;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.RawMaterialDto;
 import lk.ijse.entity.RawMaterial;
@@ -7,7 +8,7 @@ import lk.ijse.entity.RawMaterial;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface RawMaterialBO {
+public interface RawMaterialBO extends SuperBO {
     List<RawMaterialDto> getAllMaterials() throws SQLException, ClassNotFoundException;
 
     public boolean saveRawMaterial(RawMaterialDto rawMaterialDto) throws SQLException, ClassNotFoundException;

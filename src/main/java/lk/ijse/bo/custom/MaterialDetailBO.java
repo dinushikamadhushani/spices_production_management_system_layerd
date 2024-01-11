@@ -11,21 +11,7 @@ import java.util.List;
 
 public interface MaterialDetailBO extends SuperBO {
 
-   // boolean getOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException ;
-   // SupplierDto searchSupplier(String id) throws SQLException, ClassNotFoundException;
-   // RawMaterialDto searchRawMaterial(String id) throws SQLException, ClassNotFoundException;
 
-   // boolean existItem(String code)throws SQLException, ClassNotFoundException;
-
-   // boolean existCustomer(String id)throws SQLException, ClassNotFoundException;
-
-   // String generateOrderID()throws SQLException, ClassNotFoundException;
-
-   // ArrayList<CustomerDto> getAllCustomer()throws SQLException, ClassNotFoundException;
-
-    //ArrayList<ItemtDto> getAllItems()throws SQLException, ClassNotFoundException;
-
-   // boolean getOrder(GetOrderDto gDto) throws SQLException, ClassNotFoundException;
 
     boolean getOrder(LocalDate OrderDate, String supplierId, List<SupplierDetailDto> supplierDetail) throws SQLException, ClassNotFoundException;
 

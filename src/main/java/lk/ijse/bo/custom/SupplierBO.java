@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface SupplierBO extends SuperBO {
-    // CustomerDAO customerDAO = new CustomerDAOImpl();
+
     boolean updateSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException;
 
     List<Supplier> getAllSuppliers() throws SQLException, ClassNotFoundException;
